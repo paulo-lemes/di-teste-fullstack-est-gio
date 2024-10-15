@@ -46,7 +46,10 @@ async function getLowestPrice(ctx) {
   );
 
   const lowestPlanName = lowestPaidPlan.name;
-  const lowestPlanPrice = lowestPaidPlan.price;
+  const lowestPlanPrice = lowestPaidPlan.price.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 
   await ctx.reply(
     `O plano pago mais barato é o "${lowestPlanName}" e custa "${lowestPlanPrice}"`
