@@ -23,7 +23,18 @@ async function getLowestPrice(ctx) {
   await ctx.reply("Buscando dados...");
   const response = await axios.get(`https://${url.source}`);
 
-  // Use o Cheerio para converter html em DOM
+  const $ = cheerio.load(response.data);
+  const plans = [];
+
+  $(".generic_head_price").each((index, element) => {
+    const name = $(element).find(".head").text().trim();
+    const price = parseFloat($(element).find(".currency").text().trim());
+    if (price > 0) {
+      plans.push({ name, price });
+    }
+  });
+
+  console.log("Plans: ", plans);
 
   // Em seguida altere as linhas abaixo para retornar o nome e preço do plano pago mais barato
   const lowestPlanPrice = "";
