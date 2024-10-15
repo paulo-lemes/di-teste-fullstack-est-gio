@@ -36,9 +36,17 @@ async function getLowestPrice(ctx) {
 
   console.log("Plans: ", plans);
 
-  // Em seguida altere as linhas abaixo para retornar o nome e preço do plano pago mais barato
-  const lowestPlanPrice = "";
-  const lowestPlanName = "";
+  if (!plans.length) {
+    await ctx.reply("Nenhum plano encontrado.");
+    return;
+  }
+
+  const lowestPaidPlan = plans.reduce((lowest, current) =>
+    current.price < lowest.price ? current : lowest
+  );
+
+  const lowestPlanName = lowestPaidPlan.name;
+  const lowestPlanPrice = lowestPaidPlan.price;
 
   await ctx.reply(
     `O plano pago mais barato é o "${lowestPlanName}" e custa "${lowestPlanPrice}"`
